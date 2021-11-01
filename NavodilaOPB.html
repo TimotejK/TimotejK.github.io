@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navodila OPB</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h2 id="priprava-okolja-za-vaje">Priprava okolja za vaje</h2>
+<h3 id="linux-in-macos-navodila">Linux in MacOS navodila</h3>
+<ol>
+<li>Namestite Docker Engine iz <a href="https://docs.docker.com/get-docker/">uradne spletne strani</a>.</li>
+<li>Namestite (ali posodobite) <a href="https://docs.docker.com/compose/install/">docker-compose</a>.</li>
+<li>V prazno mapo shranite datoteki <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/docker-compose.yml">docker-compose.yml</a> in <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/.env">.env</a>. Pri tem bodite pozorni, da bosta datoteki ohranili pravilni imeni ( <em>.env</em> se včasih samodejno preimenuje v <em>env.txt</em> ).</li>
+<li>V <em>.env</em> datoteki lahko nastavite geslo za MySQL bazo in phpMyAdmin.</li>
+<li>V mapi z datotekama <em>docker-compose.yml</em> in <em>.evn</em> poženite ukaz <code>docker-compose up</code> in počakajte, da se storitvi zaženeta.</li>
+<li>V brskalniku odprite spletni vmesnik na naslovu <a href="http://localhost:8080">http://localhost:8080</a>. Prijavite se z uporabniškim imenom <em>root</em> in geslom <em>Geslo.01</em> (ali tistim, ki ste ga nastavili pri koraku 4).</li>
+</ol>
+<h3 id="windows-navodila">Windows navodila</h3>
+<ol>
+<li>Namestite Docker Engine iz [uradne spletne strani](## Priprava okolja za vaje</li>
+</ol>
+<h3 id="linux-in-macos-navodila-1">Linux in MacOS navodila</h3>
+<ol>
+<li>Namestite Docker Engine iz <a href="https://docs.docker.com/get-docker/">uradne spletne strani</a>.</li>
+<li>Namestite (ali posodobite) <a href="https://docs.docker.com/compose/install/">docker-compose</a>.</li>
+<li>V prazno mapo shranite datoteki <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/docker-compose.yml">docker-compose.yml</a> in <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/.env">.env</a>. Pri tem bodite pozorni, da bosta datoteki ohranili pravilni imeni ( <em>.env</em> se včasih samodejno preimenuje v <em>env.txt</em> ).</li>
+<li>V <em>.env</em> datoteki lahko nastavite geslo za MySQL bazo in phpMyAdmin.</li>
+<li>V mapi z datotekama <em>docker-compose.yml</em> in <em>.evn</em> poženite ukaz <code>docker-compose up</code> in počakajte, da se storitvi zaženeta.</li>
+<li>V brskalniku odprite spletni vmesnik na naslovu <a href="http://localhost:8080">http://localhost:8080</a>. Prijavite se z uporabniškim imenom <em>root</em> in geslom <em>Geslo.01</em> (ali tistim, ki ste ga nastavili pri koraku 4).</li>
+</ol>
+<h3 id="windows-navodila-1">Windows navodila</h3>
+<ol>
+<li>Namestite Docker Engine iz <a href="https://docs.docker.com/get-docker/">uradne spletne strani</a>.</li>
+<li>Namestite (ali posodobite) <a href="https://docs.docker.com/compose/install/">docker-compose</a>.</li>
+<li>V prazno mapo shranite datoteki <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/docker-compose.yml">docker-compose.yml</a> in <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/.env">.env</a>. Pri tem bodite pozorni, da bosta datoteki ohranili pravilni imeni ( <em>.env</em> se včasih samodejno preimenuje v <em>env.txt</em> ).</li>
+<li>V <em>.env</em> datoteki lahko nastavite geslo za MySQL bazo in phpMyAdmin.</li>
+<li>Zaženite program <em>Docker Quickstart Terminal</em>.</li>
+<li>Z ukazom <code>docker-machine ip</code> pridobite IP naslov docker vmesnikov (običajno izgleda tako <code>192.168.99.100</code>).</li>
+<li>V mapi z datotekama <em>docker-compose.yml</em> in <em>.evn</em> poženite ukaz <code>docker-compose up</code> in počakajte, da se storitvi zaženeta.</li>
+<li>V brskalniku odprite spletni vmesnik na naslovu <a href="http://192.168.99.100:8080">http://192.168.99.100:8080</a>. Prijavite se z uporabniškim imenom <em>root</em> in geslom <em>Geslo.01</em> (ali tistim, ki ste ga nastavili pri koraku 4).</li>
+</ol>
+<p>Storitve lahko ustavite tako, da v mapi z datoteko <em>docker-compose.yml</em> poženete <code>docker-compose down</code>./).<br>
+2. Namestite (ali posodobite) <a href="https://docs.docker.com/compose/install/">docker-compose</a>.<br>
+3. V prazno mapo shranite datoteki <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/docker-compose.yml">docker-compose.yml</a> in <a href="https://upascinski.bitbucket.io/opb-tools-user-manual/.env">.env</a>. Pri tem bodite pozorni, da bosta datoteki ohranili pravilni imeni ( <em>.env</em> se včasih samodejno preimenuje v <em>env.txt</em> ).<br>
+4. V <em>.env</em> datoteki lahko nastavite geslo za MySQL bazo in phpMyAdmin.<br>
+5. Zaženite program <em>Docker Quickstart Terminal</em>.<br>
+6. Z ukazom <code>docker-machine ip</code> pridobite IP naslov docker vmesnikov (običajno izgleda tako <code>192.168.99.100</code>).<br>
+7. V mapi z datotekama <em>docker-compose.yml</em> in <em>.evn</em> poženite ukaz <code>docker-compose up</code> in počakajte, da se storitvi zaženeta.<br>
+8. V brskalniku odprite spletni vmesnik na naslovu <a href="http://192.168.99.100:8080">http://192.168.99.100:8080</a>. Prijavite se z uporabniškim imenom <em>root</em> in geslom <em>Geslo.01</em> (ali tistim, ki ste ga nastavili pri koraku 4).</p>
+<p>Storitve lahko ustavite tako, da v mapi z datoteko <em>docker-compose.yml</em> poženete <code>docker-compose down</code>.</p>
+</div>
+</body>
+
+</html>

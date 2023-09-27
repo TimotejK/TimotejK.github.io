@@ -6,8 +6,8 @@ let maxNumberOfLines = 1000;
 
 function insertAlternativeSymbols(expression) {
     expression = expression.replaceAll('×', '⨯');
-    expression = expression.replaceAll('x', '⨯');
-    expression = expression.replaceAll('U', '∪');
+    // expression = expression.replaceAll('x', '⨯');
+    // expression = expression.replaceAll('U', '∪');
     return expression;
 }
 

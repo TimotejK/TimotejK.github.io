@@ -80,6 +80,7 @@ function loadDomain(domain) {
 }
 
 function prepare() {
+    document.getElementById('baza').value = 'facebooktwitter';
     document.getElementById('baza').onchange = function () {
         let value = this.value;
         loadDomain(value);

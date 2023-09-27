@@ -1,11 +1,22 @@
-// TODO dodaj da se odstranijo podvojene vrstice
 // TODO tooltip za vsako operacijo
 // TODO operacije -, /, ▷, ←
-// argumenti agregacijskih funkcij niso nujno v oklepajih
+// TODO dodaj ostale domene
+
+let maxNumberOfLines = 1000;
 
 function insertAlternativeSymbols(expression) {
     expression = expression.replaceAll('×', '⨯');
+    expression = expression.replaceAll('x', '⨯');
+    expression = expression.replaceAll('U', '∪');
     return expression;
+}
+
+function validateRelation(relation) {
+    // remove duplicate lines
+    relation = convertDataToText(relation);
+    relation.data = Array.from(new Set(relation.data));
+    relation = convertDataFromText(relation);
+    return relation
 }
 
 function findMatchingParenthesis(expression, firstLocation, open, close, startingPosition) {
@@ -23,7 +34,7 @@ function findMatchingParenthesis(expression, firstLocation, open, close, startin
 }
 
 let operationsForTokenization = ['π', 'σ', 'ρ', 'τ', '⨯', '⨝', '⋉', '⋊', '∩', '∪',
-    '∧', '∨', '¬', '=', '≠', '≥', '≤', '<', '>'];
+    '∧', '∨', '¬', '=', '≠', '≤', '≥', '<', '>'];
 
 function tokenize(expression, startPosition) {
     if (Array.isArray(expression)) {
@@ -188,7 +199,7 @@ function insertValue(tokenizedExpression) {
         for (let i = 0; i < relations.length; i++) {
             if (compareRelationAndToken(relations[i], tokenizedExpression[0].token)) {
                 let explanation = '<span class="variable">' + relations[i].name + "</span>";
-                return { type: 'result', relation: relations[i], explanation: explanation }
+                return { type: 'result', relation: validateRelation(relations[i]), explanation: explanation }
             }
         }
         return { type: 'error', description: 'Neznano ime spremenljivke', location: tokenizedExpression[0].location }
@@ -328,6 +339,7 @@ function join(relation1, relation2, conditionToken, leftOuter, rightOuter, newNa
     let used1 = new Array(relation1.data.length).fill(false);
     let used2 = new Array(relation2.data.length).fill(false);
 
+    mainLoop:
     for (let a = 0; a < relation1.data.length; a++) {
         for (let b = 0; b < relation2.data.length; b++) {
             let parameters = {};
@@ -343,6 +355,9 @@ function join(relation1, relation2, conditionToken, leftOuter, rightOuter, newNa
             if (result.type == 'error') { return result; }
             if (result.type != 'logicValue') { return { type: 'error', description: 'Pogoj mora vrniti logično vrednost', location: conditionToken.location }; }
             if (result.value) {
+                if (combinedData.length > maxNumberOfLines) {
+                    break mainLoop;
+                }
                 combinedData.push(relation1.data[a].concat(relation2.data[b]));
                 used1[a] = true;
                 used2[b] = true;
@@ -354,6 +369,9 @@ function join(relation1, relation2, conditionToken, leftOuter, rightOuter, newNa
     if (leftOuter) {
         for (let i = 0; i < used1.length; i++) {
             if (!used1[i]) {
+                if (combinedData.length > maxNumberOfLines) {
+                    break;
+                }
                 combinedData.push(relation1.data[i].concat(new Array(relation2.header.length).fill(null)));
             }
         }
@@ -361,6 +379,9 @@ function join(relation1, relation2, conditionToken, leftOuter, rightOuter, newNa
     if (rightOuter) {
         for (let i = 0; i < used2.length; i++) {
             if (!used2[i]) {
+                if (combinedData.length > maxNumberOfLines) {
+                    break;
+                }
                 combinedData.push(new Array(relation1.header.length).fill(null).concat(relation2.data[i]));
             }
         }
@@ -370,7 +391,7 @@ function join(relation1, relation2, conditionToken, leftOuter, rightOuter, newNa
     combinedRelation.header = relation1.header.concat(relation2.header);
     combinedRelation.data = combinedData;
     combinedRelation.name = newName;
-    return combinedRelation;
+    return validateRelation(combinedRelation);
 }
 
 function op(operator, relation1, relation2, parametersToken) {
@@ -387,7 +408,7 @@ function op(operator, relation1, relation2, parametersToken) {
         combinedRelation.header = relation1.header.concat(relation2.header);
         combinedRelation.data = combinedData;
         combinedRelation.name = newName;
-        return { type: 'result', relation: combinedRelation };
+        return { type: 'result', relation: validateRelation(combinedRelation) };
     }
 
     if (operator == "⨝" && !parametersToken) {
@@ -419,7 +440,7 @@ function op(operator, relation1, relation2, parametersToken) {
         combinedRelation.header = relation1.header.concat(relation2.header.filter(el => !relation1.header.includes(el)));
         combinedRelation.data = combinedData;
         combinedRelation.name = newName;
-        return { type: 'result', relation: combinedRelation };
+        return { type: 'result', relation: validateRelation(combinedRelation) };
     }
 
     if (operator == "⨝" && parametersToken) {
@@ -543,7 +564,7 @@ function aggregation(relation, columnNames, functions) {
         }
     }
     let newRelation = { types: types, header: header, data: rows, name: relation.name };
-    return { type: 'result', relation: newRelation };
+    return { type: 'result', relation: validateRelation(newRelation) };
 }
 
 function applySimpleOperations(tokenizedExpression) {
@@ -619,7 +640,7 @@ function applySimpleOperations(tokenizedExpression) {
                 }
 
                 let newRelation = { types: types, header: includedColumns, data: newData, name: newName };
-                return { type: 'result', relation: newRelation, explanation:explanation };
+                return { type: 'result', relation: validateRelation(newRelation), explanation:explanation };
             }
 
             if (operator == "σ") {
@@ -639,7 +660,7 @@ function applySimpleOperations(tokenizedExpression) {
                 }
 
                 let newRelation = { types: rightSide.relation.types, header: rightSide.relation.header, data: newData, name: newName };
-                return { type: 'result', relation: newRelation, explanation: explanation };
+                return { type: 'result', relation: validateRelation(newRelation), explanation: explanation };
             }
 
             if (operator == "ρ") {
@@ -688,7 +709,7 @@ function applySimpleOperations(tokenizedExpression) {
                 }
 
                 let newRelation = { types: rightSide.relation.types, header: newColumnNames, data: rightSide.relation.data, name: newRelationName };
-                return { type: 'result', relation: newRelation, explanation: explanation };
+                return { type: 'result', relation: validateRelation(newRelation), explanation: explanation };
             }
 
             if (operator == "τ") {

@@ -68,13 +68,23 @@ function drawRelations() {
     document.getElementById('relations').innerHTML = html;
 }
 
+function loadDomain(domain) {
+    var client = new XMLHttpRequest();
+    client.open('GET', 'https://raw.githubusercontent.com/TimotejK/OPB-LA/main/' + domain + '.js');
+    client.onreadystatechange = function() {
+        let js = client.responseText;
+        eval(js);
+        describeRelations();
+    }
+    client.send();
+}
+
 function prepare() {
     document.getElementById('baza').onchange = function () {
         let value = this.value;
-        console.log(value);
-
+        loadDomain(value);
     }
-    drawRelations();
+    // drawRelations();
     describeRelations();
     bootstrapButtons();
 }
